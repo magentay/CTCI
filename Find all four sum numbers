@@ -1,0 +1,97 @@
+
+# 1) Create an auxiliary array aux[] and store sum of all possible pairs in aux[]. The size of aux[] will be n*(n-1)/2 where n is the size of A[].
+
+# 2) Sort the auxiliary array aux[].
+
+# 3) Now the problem reduces to find two elements in aux[] with sum equal to X. 
+
+def getKey(item):
+    return item[0]
+    
+def nocommon(s1, s2):
+    
+    if (s1[1]==s2[1]) | (s1[1]==s2[2]) | (s1[2]==s2[1]) |(s1[2]==s2[2]):
+        return False
+    else:
+        return True
+
+T = int(input())
+
+for t in range(T):
+    
+    n, k = [int(x) for x in input().split()]
+    
+    A = [int(x) for x in input().split()]
+        
+   # list sum of all possible pairs 
+    sum2 = []
+    for i in range(n-1):
+        for j in range(i+1,n):
+            
+            sum2.append((A[i] + A[j], i, j))
+    
+    # sort sum of all possible pairs         
+    sum2 = sorted(sum2, key=getKey)
+
+    #  two elements in sum2[] with sum equal to K.
+    sum4 = []
+    i = 0
+    j = len(sum2)-1
+    while(i<j):
+        s = sum2[i][0] + sum2[j][0]
+        if s>k:
+            j -= 1
+        elif s<k:
+            i += 1
+        else:
+            ii = [i]
+            while(sum2[i][0] == sum2[i+1][0]) :
+                i += 1
+                ii.append(i)
+            jj = [j]
+            while(sum2[j][0] == sum2[j-1][0]):
+                j = j-1
+                jj.append(j)
+            
+            for i0 in ii:
+                for j0 in jj:
+                    if nocommon(sum2[i0], sum2[j0]):
+                        sum4.append((sum2[i0][1], sum2[i0][2], sum2[j0][1], sum2[j0][2]))
+           
+            i+=1
+            j -=1
+            
+            
+    
+
+    # sort the output
+    results = set()
+    for s in sum4:
+        arr = [A[x] for x in s]
+        arr.sort()
+        results.add(tuple(arr))
+        
+    results = sorted(results, key = lambda x:(x[0], x[1], x[2], x[3])) 
+    
+    results_clean = []
+    for r in results:
+        results_clean.append(' '.join([str(x) for x in r]) + ' $')
+        
+    # print(len(results_clean))
+
+    if len(results)>0:
+        print ("".join(list(results_clean)))
+    else:
+        print(-1)
+
+--------------------------------------------
+Input:
+2
+5 3
+0 0 2 1 1 
+7 23
+10 2 3 4 5 7 8
+Output:
+0 0 1 2 $
+2 3 8 10 $2 4 7 10 $3 5 7 8 $
+        
