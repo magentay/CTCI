@@ -1,0 +1,62 @@
+# Given a chess board of order NxM and source points (s1,s2) and destination points (d1,d2), 
+# Your task to find min number of moves required by the Knight to go to the destination cell. 
+
+import queue
+
+def minMoves(pos_x, pos_y, target_x, target_y, N, M):
+    
+    q = q = queue.Queue()
+    
+   #  x and y direction, where a knight can move
+    dx = [-2, -1, 1, 2, -2, -1, 1, 2]
+    dy = [-1, -2, -2, -1, 1, 2, 2, 1]
+    
+  
+    q.put((pos_x, pos_y, 0)) #add the current postion with 0 distance
+    
+    visited = [[0]*(M+1) for i in range(N+1)] #mark all cell unvisited
+
+    visited[pos_x][pos_y] = 1
+    
+
+    while not q.empty():
+        t = q.get()
+        
+        visited[t[0]][t[1]]=1
+        
+        if (t[0] == target_x and t[1] == target_y):
+            return t[2]
+            
+        for i in range(8):
+            x = t[0] + dx[i]
+            y = t[1] + dy[i]
+      
+            if x>0 and x <= N and y>0 and y <= M and visited[x][y]==0:
+                q.put((x,y,t[2]+1))
+    return -1
+        
+    
+
+T = int(input())
+
+for t in range(T):
+    
+    n,m = [int(x) for x in input().split()]
+    
+    s1, s2, d1, d2 = [int(x) for x in input().split()]
+    
+    # print(n, m, s1, s2,d1,d2)
+    
+    print(minMoves(s1,s2,d1,d2,n,m))
+    
+=====================
+
+Input:
+2
+4 7
+2 6 2 4
+7 13
+2 8 3 4
+Output:
+2
+3
