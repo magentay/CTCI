@@ -1,0 +1,42 @@
+# Total Decoding Messages
+# Given encoded message "123",  it could be decoded as "ABC" (1 2 3) or "LC" (12 3) or "AW"(1 23). So total ways are 3.
+
+def decoding(s, n):
+    
+    if s[0]=="0":
+        return 0
+        
+    if n ==0 or n==1:
+        return 1
+    
+    count = 0
+    
+ #  If the last digit is not 0, then last digit must add to the number of words
+    if s[n-1] >'0':
+        count = decoding(s, n-1)
+    
+#   If the last two digits form a number smaller than or equal to 26, then consider last two digits and recur
+    if (s[n-2]=="1" )or (s[n-2]=="2" and s[n-1] <'7'):
+        count += decoding(s,n-2)
+        
+    return count
+
+T = int(input())
+
+for t in range(T):
+    n = int(input())
+    s = input()
+    
+    print(decoding(s,n))
+    
+    
+==================
+Input:
+2
+3
+123
+4
+2563
+Output:
+3
+2
