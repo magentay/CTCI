@@ -1,0 +1,44 @@
+
+def findLongestConseqSubseq(arr, n):
+    
+    count = 0
+    
+    arrset = set(arr)
+    
+    for i in range(n):
+        
+        if (arr[i]-1) not in arrset: # if current element is the starting element of a sequence
+            
+            j = arr[i]
+            
+            while (j in arrset): # Then check for next elements in the sequence
+                j += 1
+                
+            count = max(count, j - arr[i])
+
+    return count
+
+T = int(input())
+
+for t in range(T):
+    
+    n = int(input())
+    
+    arr = [int(x) for x in input().split()]
+    
+    print(findLongestConseqSubseq(arr, n))
+          
+          
+  =======================
+  Input:
+
+2
+7
+2 6 1 9 4 5 3
+7
+1 9 3 10 4 20 2
+
+Output:
+
+6
+4
